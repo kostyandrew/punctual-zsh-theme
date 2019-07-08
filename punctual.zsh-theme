@@ -23,6 +23,8 @@ PUNCTUAL_ROOT_USER_COLOUR="${PUNCTUAL_ROOT_USER_COLOUR:-red}";
 PUNCTUAL_HOSTNAME_COLOUR="${PUNCTUAL_HOSTNAME_COLOUR:-green}";
 PUNCTUAL_CURRENT_DIR_COLOUR="${PUNCTUAL_CURRENT_DIR_COLOUR:-cyan}";
 PUNCTUAL_GIT_COLOUR="${PUNCTUAL_GIT_COLOUR:-magenta}";
+PUNCTUAL_GIT_USER_NAME_COLOUR="${PUNCTUAL_GIT_USER_NAME_COLOUR:-blue}";
+PUNCTUAL_GIT_USER_EMAIL_COLOUR="${PUNCTUAL_GIT_USER_EMAIL_COLOUR:-blue}";
 
 PUNCTUAL_TIMESTAMP_BOLD="${PUNCTUAL_TIMESTAMP_BOLD:-false}";
 PUNCTUAL_USER_BOLD="${PUNCTUAL_USER_BOLD:-false}";
@@ -106,11 +108,18 @@ punctualCurrentDir () {
 
 punctualGitStatus () {
     PUNCTUAL_GIT_CURRENT_BRANCH=`git_current_branch | xargs echo -n`;
+    PUNCTUAL_GIT_USER_NAME=`git_current_user_name | xargs echo -n`;
+    PUNCTUAL_GIT_USER_EMAIL=`git_current_user_email | xargs echo -n`;
     PUNCTUAL_GIT_PROMPT_STATUS=`git_prompt_status | sed -E 's/!+/!/g' | xargs echo -n`;
     if [[ ! -z "${PUNCTUAL_GIT_CURRENT_BRANCH}" ]]; then
         echo -n 'at';
         echo -n ' ';
         punctualDecorate "${PUNCTUAL_GIT_CURRENT_BRANCH}" "${PUNCTUAL_GIT_COLOUR}" "${PUNCTUAL_GIT_BOLD}";
+        echo -n ' by ';
+        punctualDecorate "${PUNCTUAL_GIT_USER_NAME}" "${PUNCTUAL_GIT_USER_NAME_COLOUR}" "${PUNCTUAL_GIT_BOLD}";
+        echo -n ' <';
+        punctualDecorate "${PUNCTUAL_GIT_USER_EMAIL}" "${PUNCTUAL_GIT_USER_EMAIL_COLOUR}" "${PUNCTUAL_GIT_BOLD}";
+        echo -n '>';
         if [[ ! -z "${PUNCTUAL_GIT_PROMPT_STATUS}" ]]; then
             punctualDecorate "(${PUNCTUAL_GIT_PROMPT_STATUS})" "${PUNCTUAL_GIT_COLOUR}" "${PUNCTUAL_GIT_BOLD}";
         fi;
