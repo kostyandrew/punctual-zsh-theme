@@ -17,6 +17,7 @@ PUNCTUAL_SHOW_HOSTNAME="${PUNCTUAL_SHOW_HOSTNAME:-true}";
 PUNCTUAL_SHOW_CURRENT_DIR="${PUNCTUAL_SHOW_CURRENT_DIR:-true}";
 PUNCTUAL_SHOW_GIT="${PUNCTUAL_SHOW_GIT:-true}";
 
+PUNCTUAL_PROMPT_COLOUR="${PUNCTUAL_PROMPT_COLOUR:-reset}";
 PUNCTUAL_TIMESTAMP_COLOUR="${PUNCTUAL_TIMESTAMP_COLOUR:-reset}";
 PUNCTUAL_USER_COLOUR="${PUNCTUAL_USER_COLOUR:-blue}";
 PUNCTUAL_ROOT_USER_COLOUR="${PUNCTUAL_ROOT_USER_COLOUR:-red}";
@@ -132,7 +133,7 @@ punctualTimestamp () {
 
 punctualPrompt () {
     echo -n "%(?.%{$reset_color%}.%{$fg[red]%})";
-    echo -n "${PUNCTUAL_PROMPT}";
+    punctualDecorate "${PUNCTUAL_PROMPT}" "${PUNCTUAL_PROMPT_COLOUR}";
     echo -n "%{$reset_color%}";
     echo -n ' ';
 }
